@@ -1,0 +1,6 @@
+# Ignore everything in the client folder except the build folder
+client/*
+!client/build/
+
+# Ignore the grayvenv folder in the server
+server/grayvenv/
