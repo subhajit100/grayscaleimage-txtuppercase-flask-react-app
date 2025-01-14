@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import Cookies from 'js-cookie';
 
 const TextFileUpperCase = () => {
     const [file, setFile] = useState(null);
@@ -11,6 +12,11 @@ const TextFileUpperCase = () => {
     };
 
     const handleUpload = async () => {
+        // const token = localStorage.getItem("authToken");
+        // if (!token) {
+        //     alert("Please log in first.");
+        //     return;
+        // }
         if (!file) {
             alert("Please select a file first!");
             return;
@@ -20,10 +26,16 @@ const TextFileUpperCase = () => {
         formData.append("file", file);
 
         try {
+            const csrfToken = Cookies.get('csrf_access_token');
             const response = await axios.post(
                 `${BASE_BACKEND_URL}/upload-text`,
                 formData,
                 {
+                    headers: {
+                        // Authorization: `Bearer ${token}`,
+                        'X-CSRF-TOKEN': csrfToken,
+                    },
+                    withCredentials:true,
                     responseType: 'blob', // Important: ensures the response is treated as a file blob
                 }
             );

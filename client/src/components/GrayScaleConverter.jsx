@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const GrayScaleConverter = () => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -12,6 +13,12 @@ const GrayScaleConverter = () => {
     };
   
     const handleGrayScale = async () => {
+      // const token = localStorage.getItem("authToken");
+      // if (!token) {
+      //   alert("Please log in first.");
+      //   return;
+      // }
+
       if (!selectedFile) {
         alert("Please upload an image first!");
         return;
@@ -21,10 +28,14 @@ const GrayScaleConverter = () => {
       formData.append("image", selectedFile);
   
       try {
+        const csrfToken = Cookies.get('csrf_access_token');
         const response = await axios.post(`${BASE_BACKEND_URL}/upload-image`, formData, {
           headers: {
+            // Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
+            'X-CSRF-TOKEN': csrfToken,
           },
+          withCredentials:true,
           responseType: "blob", // To handle binary image data
         });
   
