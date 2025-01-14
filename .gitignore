@@ -5,6 +5,7 @@
 
 # python local env
 /server/grayvenv
+/server/__pycache__
 
 # misc
 .DS_Store

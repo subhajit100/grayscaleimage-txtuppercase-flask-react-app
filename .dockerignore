@@ -4,3 +4,5 @@ client/*
 
 # Ignore the grayvenv folder in the server
 server/grayvenv/
+server/.env
+server/__pycache__
